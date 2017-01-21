@@ -1,0 +1,7 @@
+$TOMCAT_PATH
+
+<ul>
+#foreach( $PATH in $PATHS.split("\|") )
+    <li>$PATH</li>
+#end
+</ul>
