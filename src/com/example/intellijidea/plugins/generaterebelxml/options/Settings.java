@@ -2,17 +2,14 @@ package com.example.intellijidea.plugins.generaterebelxml.options;
 
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
-import com.intellij.openapi.components.StoragePathMacros;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * http://www.jetbrains.org/intellij/sdk/docs/basics/persisting_state_of_components.html
+ * Project level by default. Will be saved in .idea/misc.xml
  */
-@State(name = "GenerateRebelXML",
-        storages = {@Storage(StoragePathMacros.WORKSPACE_FILE)}
-)
+@State(name = "GenerateRebelXMLSettings")
 public class Settings implements PersistentStateComponent<Settings> {
 
     private String tomcatPath;
