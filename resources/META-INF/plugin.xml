@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>com.example.intellijidea.plugins.generaterebelxml</id>
   <name>Generate rebel.xml</name>
-  <version>1.2</version>
+  <version>1.3</version>
   <vendor email="markiewb@github" url="markiewb@github">markiewb@github</vendor>
 
   <description><![CDATA[
@@ -10,6 +10,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
+      1.3: Add action to context menu of files/changelists in "Local Changes" window
       1.2: Add action to context menu of Maven modules in "Maven Projects" window (+ Refactor to use VIRTUAL_FILE_ARRAY to get com.intellij.openapi.module.Module)
       1.1: Make settings per project type and enable the "for current project" indicator in the settings
     ]]>
@@ -40,6 +41,7 @@
             description="Generates a rebel.xml file for the selected projects into WEB-INF/classes/ of the Tomcat" >
       <add-to-group group-id="ProjectViewPopupMenu" anchor="before" relative-to-action="AssociateWithFileType"/>
       <add-to-group group-id="Maven.NavigatorProjectMenu" anchor="first"  />
+      <add-to-group group-id="ChangesViewPopupMenu" anchor="first"/>
     </action>
   </actions>
 

@@ -168,6 +168,8 @@ public class GenerateRebelXMLAction extends AnAction {
                 final List<VirtualFile> filesList = Arrays.asList(files);
 
                 modules = filesList.stream().map(file -> ModuleUtil.findModuleForFile(file, project)).filter(Objects::nonNull).collect(Collectors.toList());
+                // Make unique
+                modules = new ArrayList<>(new HashSet<>(modules));
 
             }
         }
