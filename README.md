@@ -13,8 +13,10 @@ It shows the usage some IDEA APIs:
 
 <img src="https://raw.githubusercontent.com/markiewb/idea-create-from-template-plugin/master/example.png"/>
 
-## Updates in 1.1 
-* Make settings per project type and enable the "for current project" indicator in the settings
+## Updates 
+      1.3: Add action to context menu of files/changelists in "Local Changes" window
+      1.2: Add action to context menu of Maven modules in "Maven Projects" window (+ Refactor to use VIRTUAL_FILE_ARRAY to get com.intellij.openapi.module.Module)
+      1.1: Make settings per project type and enable the "for current project" indicator in the settings
 
 ## License
 Apache 2.0
