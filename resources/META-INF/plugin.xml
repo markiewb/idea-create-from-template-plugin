@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>com.example.intellijidea.plugins.generaterebelxml</id>
   <name>Generate rebel.xml</name>
-  <version>1.1</version>
+  <version>1.2</version>
   <vendor email="markiewb@github" url="markiewb@github">markiewb@github</vendor>
 
   <description><![CDATA[
@@ -10,6 +10,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
+      1.2: Add action to context menu of Maven modules in "Maven Projects" window (+ Refactor to use VIRTUAL_FILE_ARRAY to get com.intellij.openapi.module.Module)
       1.1: Make settings per project type and enable the "for current project" indicator in the settings
     ]]>
   </change-notes>
@@ -22,6 +23,8 @@
   <!-- uncomment to enable plugin in all products
   <depends>com.intellij.modules.lang</depends>
   -->
+  <depends>com.intellij.modules.java</depends>
+  <depends>org.jetbrains.idea.maven</depends>
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
@@ -34,8 +37,9 @@
     <!-- Add your actions here -->
     <action id="com.example.intellijidea.plugins.generaterebelxml.GenerateRebelXMLAction"
             class="com.example.intellijidea.plugins.generaterebelxml.GenerateRebelXMLAction" text="Generate rebel.xml..."
-            description="Generates a rebel.xml file for the selected projects into WEB-INF/classes/ of the Tomcat">
+            description="Generates a rebel.xml file for the selected projects into WEB-INF/classes/ of the Tomcat" >
       <add-to-group group-id="ProjectViewPopupMenu" anchor="before" relative-to-action="AssociateWithFileType"/>
+      <add-to-group group-id="Maven.NavigatorProjectMenu" anchor="first"  />
     </action>
   </actions>
 

@@ -4,13 +4,12 @@ import com.example.intellijidea.plugins.generaterebelxml.options.Settings;
 import com.intellij.ide.fileTemplates.FileTemplate;
 import com.intellij.ide.fileTemplates.FileTemplateManager;
 import com.intellij.ide.fileTemplates.FileTemplateUtil;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.LangDataKeys;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.text.StringUtil;
@@ -23,9 +22,8 @@ import com.intellij.psi.PsiManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -52,10 +50,10 @@ public class GenerateRebelXMLAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-        final Module[] modules = LangDataKeys.MODULE_CONTEXT_ARRAY.getData(e.getDataContext());
+        List<Module> modules = getModules(e.getDataContext(), e.getProject());
         final List<Module> mavenModules = getMavenModules(modules);
 
-        if ((modules != null ? modules.length : 0) != mavenModules.size()) {
+        if (modules.size() != mavenModules.size()) {
             Messages.showDialog("No Maven projects selected", "???", new String[]{"OK"}, -1, null);
             return;
         }
@@ -118,7 +116,7 @@ public class GenerateRebelXMLAction extends AnAction {
     }
 
     @NotNull
-    private List<Module> getMavenModules(Module[] modules) {
+    private List<Module> getMavenModules(Collection<Module> modules) {
         final List<Module> mavenModules = new ArrayList<>();
         for (Module module : modules) {
 
@@ -149,9 +147,30 @@ public class GenerateRebelXMLAction extends AnAction {
     public void update(AnActionEvent e) {
         //https://github.com/JetBrains/intellij-community/search?utf8=%E2%9C%93&q=MODULE_CONTEXT_ARRAY&type=Code
 
-        final Module[] modules = LangDataKeys.MODULE_CONTEXT_ARRAY.getData(e.getDataContext());
-        final boolean isAtLeastOneModule = modules != null && modules.length > 0;
+        if (e.getProject() == null) {
+            e.getPresentation().setEnabled(false);
+            return;
+        }
 
-        e.getPresentation().setEnabledAndVisible(isAtLeastOneModule && e.getProject() != null);
+        List<Module> modules = getModules(e.getDataContext(), e.getProject());
+        final boolean isAtLeastOneModule = !modules.isEmpty();
+
+        e.getPresentation().setEnabled(isAtLeastOneModule);
+//        e.getPresentation().setEnabledAndVisible(isAtLeastOneModule && e.getProject() != null);
+    }
+
+    private List<Module> getModules(DataContext dataContext, Project project) {
+        List<Module> modules = new ArrayList<>();
+        if (project != null && dataContext!=null) {
+
+            VirtualFile[] files = DataKeys.VIRTUAL_FILE_ARRAY.getData(dataContext);
+            if (files!=null) {
+                final List<VirtualFile> filesList = Arrays.asList(files);
+
+                modules = filesList.stream().map(file -> ModuleUtil.findModuleForFile(file, project)).filter(Objects::nonNull).collect(Collectors.toList());
+
+            }
+        }
+        return modules;
     }
 }
