@@ -11,6 +11,7 @@ It shows the usage some IDEA APIs:
   3. Files/Changelists in "Local Changes" window via `<add-to-group group-id="ChangesViewPopupMenu"` <img src="https://raw.githubusercontent.com/markiewb/idea-create-from-template-plugin/master/doc/AtChangeList.png"/> <img src="https://raw.githubusercontent.com/markiewb/idea-create-from-template-plugin/master/doc/AtChangeListFile.png"/>
 * How to create a context sensitive action. The action is only activated for Maven-based module nodes. It uses `com.intellij.openapi.actionSystem.DataContext` and `com.intellij.openapi.module.ModuleUtil` 
 * How to add an project specific option panel including "for current project" indicator - see ```projectConfigurable``` in the ```plugin.xml``` 
+   * Documenation: https://sites.google.com/site/malenkov/java/150403
    * Some related issues: https://youtrack.jetbrains.com/issue/IDEA-167520 https://youtrack.jetbrains.com/issue/IDEA-169713
 * How to register and use a project based settings service. See ```projectService``` in the ```plugin.xml```
 * How to register a file template. See ```fileTemplateGroup``` in ```plugin.xml``` and ```resources/fileTemplates.j2ee```
